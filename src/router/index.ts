@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import Parent from '../components/Parent.vue'
+import Listing from '../components/Listing.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Parent',
-    component: Parent,
+    name: 'Listing',
+    component: Listing,
   },
 ]
 
