@@ -1,5 +1,4 @@
 <template>
-<h1>Order listing</h1>
 <div v-if="successMessage" style="color:green; margin-bottom: 10px; margin-top: 10px">
     {{  successMessage }}
 </div>
@@ -8,9 +7,13 @@
     {{  error }}
 </div>
 
-<button @click="createOrder()" style="color:white; background-color: gray; padding: 10px; border-radius: 10px; margin-left:500px">
+<div style="margin-bottom: 20px;">
+    <button @click="createOrder()" style="padding: 6px 12px; background-color: #ccc; border: none; border-radius: 4px; cursor: pointer;">
     Create Order
-</button>
+    </button>
+</div>
+
+<h1>Order listing</h1>
 
 <div v-if="orders.length === 0" class="text-gray-500">
     No order to display, Please create one.
