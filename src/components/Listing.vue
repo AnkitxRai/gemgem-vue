@@ -19,7 +19,7 @@
     No order to display, Please create one.
 </div>
 
-<table v-else border="1" cellpadding="25" cellspacing="0" class="w-full">
+<table v-else border="1" cellpadding="10" cellspacing="0" class="w-full">
     <thead>
         <tr>
             <th>ID</th>

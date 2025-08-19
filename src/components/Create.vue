@@ -8,7 +8,21 @@
     </div>
 
 
+<!-- Success or Error Messages -->
+<div v-if="successMessage" style="margin-top: 10px; margin-bottom: 10px; color: green;">
+  {{ successMessage }}
+</div>
+
+<div v-if="errors.length" style="margin-top: 10px; margin-bottom: 10px; color: red;">
+  <ul>
+    <li v-for="(err, index) in errors" :key="index">
+      {{ err }}
+    </li>
+  </ul>
+</div>
+
   <h1>Create Order</h1>
+
 <form @submit.prevent="submitOrder">
 
   <div style="margin-bottom: 10px;">
@@ -18,17 +32,17 @@
 
     <div style="margin-bottom: 10px;">
     <label>Customer Email:</label>
-    <input type="text" v-model="orderForm.customer_name" required />
+    <input type="email" v-model="orderForm.customer_email" required />
   </div>
 
     <div style="margin-bottom: 10px;">
     <label>Product Name:</label>
-    <input type="text" v-model="orderForm.customer_name" required />
+    <input type="text" v-model="orderForm.product_name" required />
   </div>
 
       <div style="margin-bottom: 10px;">
     <label>Product Price:</label>
-    <input type="text" v-model="orderForm.customer_name" required />
+    <input type="number" v-model="orderForm.product_price" required />
   </div>
 
   <div style="margin-bottom: 10px;">
@@ -56,9 +70,9 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const apiUrl = import.meta.env.VITE_API_URL;
-// const loader = ref(false);
-// const errors = ref([]);
-// const successMessage = ref('');
+const loader = ref(false);
+const errors = ref([]);
+const successMessage = ref('');
 
 
 const orderForm = ref({
@@ -69,12 +83,48 @@ const orderForm = ref({
   status: ""
 });
 
+/**
+ * Create order api
+ */
 const submitOrder = async () => {
-  //
-}
+  errors.value = [];
+  successMessage.value = "";
 
+  try {
+    const response = await axios.post(`${apiUrl}/orders`, orderForm.value);
+
+    successMessage.value = response.data.message || "Order created successfully."
+    resetForm();
+
+  } catch (error) {
+    if(error.response && error.response.status === 422) {
+      errors.value = Object.values(error.response.data.errors).flat();
+    } else {
+      errors.value = ["Something went wrong"];
+      console.log(error);
+    }
+  }
+};
+
+/**
+ * Listing button page
+ */
 const orderListing = () => {
     router.push('/');
+}
+
+
+/**
+ * reset form
+ */
+const resetForm= () => {
+    orderForm.value= {
+      customer_name: "",
+      customer_email: "",
+      product_name: "",
+      product_price: "",
+      status: ""
+    };
 }
 
 </script>
